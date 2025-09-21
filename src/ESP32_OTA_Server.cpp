@@ -91,7 +91,7 @@ const char* default_html = R"rawliteral(
       const version = atob(base64Version);
       versionDiv.textContent = "Sürüm: " + version;
     } catch(e) {
-      versionDiv.textContent = "Sürüm bilgisi çözülemedi!";
+      versionDiv.textContent = "Sürüm bilgisi çözülemedi! Sürümü yüklemek tavsiye edilmez!";
     }
   }
 
