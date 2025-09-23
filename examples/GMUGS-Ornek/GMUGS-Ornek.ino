@@ -3,7 +3,7 @@
 #include "ESP32_OTA_Server.h"
 
 WebServer server(80);
-ESP32_OTA_Server gm(server);  // OTA sunucusu örneği
+ESP32_OTA_Server UGS(server);  // OTA sunucusu örneği
 
 void setup() {
     Serial.begin(115200);
@@ -19,9 +19,9 @@ void setup() {
     Serial.print("Bağlandı! IP: ");
     Serial.println(WiFi.localIP());
 
-    gm.begin(); // OTA sunucusunu başlat
+    UGS.begin(); // OTA sunucusunu başlat
 }
 
 void loop() {
-    gm.handleClient(); // HTTP isteklerini işleme
+    UGS.handleClient(); // HTTP isteklerini işleme
 }
