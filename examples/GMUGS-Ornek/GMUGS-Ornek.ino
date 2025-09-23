@@ -1,18 +1,31 @@
 #include <WiFi.h>
 #include <WebServer.h>
-#include "ESP32_OTA_Server.h"
+#include "UGS.h"  // Yeni kütüphane adı
+
+// WiFi bilgilerini buraya yaz
+const char* ssid = "wifi-ad";
+const char* password = "wifi-sifre";
 
 WebServer server(80);
-ESP32_OTA_Server gm(server);
+UGS ugs(server);  // 'gm' yerine artık 'ugs'
 
 void setup() {
     Serial.begin(115200);
-    WiFi.begin("wifi-ad", "wifi-sifre");
-    while (WiFi.status() != WL_CONNECTED) delay(500);
 
-    gm.begin(); // Start OTA server
+    // WiFi bağlanma
+    WiFi.begin(ssid, password);
+    Serial.print("WiFi'ye bağlanıyor");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println();
+    Serial.print("Bağlandı! IP: ");
+    Serial.println(WiFi.localIP());
+
+    ugs.begin(); // OTA sunucusunu başlat
 }
 
 void loop() {
-    gm.handleClient();
+    ugs.handleClient(); // HTTP isteklerini işle
 }
