@@ -1,17 +1,17 @@
-#ifndef UGS_H
-#define UGS_H
+#ifndef ESP32_OTA_SERVER_H
+#define ESP32_OTA_SERVER_H
 
 #include <WiFi.h>
 #include <WebServer.h>
 #include <Update.h>
 
-class UGS {
-  public:
-    UGS(WebServer& srv);
+class ESP32_OTA_Server {
+public:
+    ESP32_OTA_Server(WebServer& srv);
     void begin();
     void handleClient();
 
-  private:
+private:
     WebServer* _server;
     const char* _ota_html;
 
