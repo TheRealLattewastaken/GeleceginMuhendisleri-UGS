@@ -1,4 +1,4 @@
-#include "ESP32_OTA_Server.h"
+#include "UGS.h"
 
 // Embed your full HTML here
 const char* default_html = R"rawliteral(
@@ -91,79 +91,4 @@ const char* default_html = R"rawliteral(
       const version = atob(base64Version);
       versionDiv.textContent = "Sürüm: " + version;
     } catch(e) {
-      versionDiv.textContent = "Sürüm bilgisi çözülemedi! Sürümü yüklemek tavsiye edilmez!";
-    }
-  }
-
-  fileInput.addEventListener('change', () => setVersionFromFile(fileInput.files[0]));
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const file = fileInput.files[0];
-    if (!file) { statusDiv.textContent = "Lütfen bir dosya seçin!"; return; }
-    setVersionFromFile(file);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/update", true);
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-    xhr.upload.addEventListener("progress", function(evt) {
-      if (evt.lengthComputable) {
-        const percent = Math.round(evt.loaded / evt.total * 100);
-        statusDiv.textContent = "Yükleniyor: " + percent + "%";
-      }
-    });
-
-    xhr.onload = function() {
-      if (xhr.status == 200) { statusDiv.textContent = "Yükleme tamamlandı! Cihaz yeniden başlatılıyor..."; }
-      else { statusDiv.textContent = "Yükleme başarısız!"; }
-    };
-
-    const formData = new FormData();
-    formData.append("firmware", file);
-    xhr.send(formData);
-  });
-</script>
-</body>
-</html>
-)rawliteral";
-
-// Constructor
-ESP32_OTA_Server::ESP32_OTA_Server(WebServer& srv) {
-    _server = &srv;
-    _ota_html = default_html;
-}
-
-// Start OTA server
-void ESP32_OTA_Server::begin() {
-    _server->on("/", HTTP_GET, [this]() { handleRoot(); });
-    _server->on("/update", HTTP_POST, 
-        [this]() { _server->send(200, "text/plain", "Update finished"); ESP.restart(); },
-        [this]() { handleUpdate(); }
-    );
-    _server->begin();
-}
-
-// Handle incoming HTTP requests
-void ESP32_OTA_Server::handleClient() {
-    _server->handleClient();
-}
-
-// Serve the HTML page
-void ESP32_OTA_Server::handleRoot() {
-    _server->send(200, "text/html", _ota_html);
-}
-
-// Handle OTA upload
-void ESP32_OTA_Server::handleUpdate() {
-    HTTPUpload& upload = _server->upload();
-    if (upload.status == UPLOAD_FILE_START) {
-        Serial.printf("Update: %s\n", upload.filename.c_str());
-        if (!Update.begin(UPDATE_SIZE_UNKNOWN)) Update.printError(Serial);
-    } else if (upload.status == UPLOAD_FILE_WRITE) {
-        if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) Update.printError(Serial);
-    } else if (upload.status == UPLOAD_FILE_END) {
-        if (Update.end(true)) Serial.printf("Update Success: %u bytes\n", upload.totalSize);
-        else Update.printError(Serial);
-    }
-}
+      versionDiv.textContent = "Sürüm bilgisi çözülemedi! Sürümü yükleme
