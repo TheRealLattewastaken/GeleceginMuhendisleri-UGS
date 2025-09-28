@@ -5,7 +5,7 @@
 *Özellikler:*
 ```
 1- Çalışan Sürüm Sistemi
-*_.bin dosyasının adının base64 ile çözülmesi_*
+(.bin dosyasının adının base64 ile çözülmesi)
 2- Güzel Arayüz
 3- Hatalı sürüm tanıma sistemi 
 ```
