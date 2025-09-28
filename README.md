@@ -23,5 +23,7 @@
 2- Arduino IDE'yi indirin ve açın.
 3- Kütüphanelerin bulunduğu sekmeden "Add .zip library"/".zip kütüphanesi ekle" tuşuna basın.
 4- İndirdiğiniz .zip dosyasını seçin.
-5- Kullanmaya başlayın!
+5- Kütüphane örneğini yükleyin.
+7- Wi-Fi bilgilerini girin
+8- Kodu karta yükleyin!
 ```
